@@ -55,8 +55,8 @@ jobs:
         
     # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
     # If this step fails, then you should remove it and run the build manually (see below)
-    - name: Autobuild
-      uses: github/codeql-action/autobuild@v2
+#     - name: Autobuild
+#       uses: github/codeql-action/autobuild@v2
 
     # ℹ️ Command-line programs to run using the OS shell.
     # 📚 See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsrun
@@ -77,6 +77,16 @@ jobs:
 #       run: |
 #         make bootstrap
 #         make release
+
+    - run: |
+       echo "Run, Build Application using script"
+       sudo apt update
+       sudo apt install openjdk-8-jdk
+       sudo update-java-alternatives -s java-1.8.0-openjdk-amd64
+       java -version
+       javac -version
+       ./gradlew codegen
+       ./gradlew build --refresh-dependencies
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2

@@ -1,0 +1,29 @@
+name: Create Release
+on:
+  workflow_dispatch:
+    inputs:
+      release-description:
+        description: 'GitHub release description'
+        required: true
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Get Release Version
+        id: get_release_version
+        run: echo ::set-output name=version::$(cat release-version)
+      - name: Create Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.get_release_version.outputs.version }}
+          release_name: ${{ steps.get_release_version.outputs.version }}
+          body: ${{ github.event.inputs.release-description }}
+          draft: false
+          prerelease: false
+          target_commitish: release
+          github_release: 'true'
+          latest: true

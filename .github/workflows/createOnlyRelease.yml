@@ -9,8 +9,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout Release Branch
         uses: actions/checkout@v2
+        with:
+          ref: 'refs/heads/release'
       - name: Get Release Version
         id: get_release_version
         run: echo ::set-output name=version::$(cat release-version)
